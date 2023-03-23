@@ -461,16 +461,36 @@
 		if(cNumberNonGaiaPlayers<8)
 		{
 			int RandStart = rmRandInt(0,6);
-			float Add = 7/cNumberNonGaiaPlayers;
-			while (RandStart>0)
+			int Add = 1;
+			
+			if(cNumberNonGaiaPlayers==3 || cNumberNonGaiaPlayers==4)
 			{
-				RandStart = RandStart - Add;
+				Add = 2;
 			}
-			RandStart = RandStart + Add;
+			if(cNumberNonGaiaPlayers==2 || cNumberNonGaiaPlayers==5)
+			{
+				Add = 3;
+			}
+			//if(cNumberNonGaiaPlayers==6 || cNumberNonGaiaPlayers==7)
+			//{
+			//	Add = 1;
+			//}
 
-			for(i=i; <=cNumberNonGaiaPlayers)
+			// int RandStart = rmRandInt(0,6);
+			// float Add = 7/cNumberNonGaiaPlayers;
+			// while (RandStart>0)
+			// {
+			// 	RandStart = RandStart - Add;
+			// }
+			// RandStart = RandStart + Add;
+
+			for(i=1; <=cNumberNonGaiaPlayers)
 			{
 				int LocationId = RandStart + (i-1)*Add;
+				while(LocationId>6)
+				{
+					LocationId = LocationId -7;
+				}
 				xsArraySetInt(PlayerLocationArrayId,i-1,LocationId);
 
 				XPos = xsArrayGetFloat(PlayerGroundArrayIdX, LocationId);
@@ -601,7 +621,7 @@
 				oxy("trUnforbidProtounit("+i+", \"SaloonOutlawRider\");");
 				oxy("trUnforbidProtounit("+i+", \"MercJaeger\");");
 				oxy("trUnforbidProtounit("+i+", \"MercLandsknecht\");");
-				oxy("trUnforbidProtounit("+i+", \"MercMameluke\");");
+				//oxy("trUnforbidProtounit("+i+", \"MercMameluke\");");
 				oxy("trUnforbidProtounit("+i+", \"MercHighlander\");");
 				oxy("trUnforbidProtounit("+i+", \"MercBlackRider\");");
 				oxy("trUnforbidProtounit("+i+", \"MercBarbaryCorsair\");");
@@ -612,8 +632,10 @@
 				oxy("trTechSetStatus("+i+", 416, 2);");
 				oxy("trTechSetStatus("+i+", 417, 2);");
 				oxy("trTechSetStatus("+i+", 418, 2);");
+				//Spy
 				oxy("trTechSetStatus("+i+", 446, 2);");
 				oxy("trTechSetStatus("+i+", 1539, 2);");
+				oxy("trTechSetStatus("+i+", 1005, 0);");
 				oxy("trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherFoodTeam\", "+i+", 5, 0, 0);");
 				oxy("trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherWoodTeam\", "+i+", 5, 0, 0);");
 				oxy("trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherCoinTeam\", "+i+", 5, 0, 0);");
@@ -697,6 +719,8 @@
 				float OffsetX = XPosOil2-XPosOil1;
 				float OffsetZ = ZPosOil2-ZPosOil1;
 
+				// SPCXPAmmoStorehouse
+
 				// rmPlaceObjectDefAtLoc(WagonGetCorner,i,XPosOil1+OffsetX/2,ZPosOil1+OffsetZ/2);
 
 				// int WagonGetCornerUintId = rmGetUnitPlacedOfPlayer(WagonGetCorner,i);
@@ -733,7 +757,7 @@
 				// oxy("	trUnitSelectByID("+WagonBakerUnitId+");");
 				oxy("	trRemoveUnitsInArea("+i+",\"SPCXPWagonFood\",10);");
 				oxy("	for(i=0; <FoodWagonCount){");
-				oxy("		trUnitCreateFromSource(\"deMilitaryWagon\", \""+WagonBakerUnitId+"\", \""+WagonBakerUnitId+"\", "+i+");");
+				oxy("		trUnitCreateFromSource(\"deImperialWagon\", \""+WagonBakerUnitId+"\", \""+WagonBakerUnitId+"\", "+i+");");
 				oxy("	}}}");
 				oxyZ("}/*");
 
@@ -859,6 +883,14 @@
 			oxy("trModifyPlayerData("+i+",0,-1,300,0);");
 			oxy("xsDisableRule(\"_GiveResource"+i+"\");");
 			oxyZ("}/*");
+
+			oxy("rule _DetectBuildingCount"+i+" active runImmediately { ");
+			oxy("if(trPlayerBuildingCount("+i+")==0){");
+			oxy("	trSetPlayerDefeated("+i+");");
+			oxy("	xsDisableRule(\"_DetectBuildingCount"+i+"\");");
+			oxy("}");
+			oxyZ("}/*");
+			
 		}
 
 		int HCAccessWall = rmCreateObjectDef("HCAccessWall");
@@ -872,13 +904,14 @@
 		oxy("xsDisableRule(\"_TimerAccessHC\");");
 		oxyZ("}/*");
 
+
+		//船运禁用
 		oxy("rule _ForbidHC active runImmediately { ");
 		oxy("for(i=1; <="+cNumberNonGaiaPlayers+"){");
 		oxy("trPlayerSetHCAccess(i,false);");
 		oxy("}");
 		oxy("xsDisableRule(\"_ForbidHC\");");
 		oxyZ("}/*");
-
 
 		oxy("rule _AccessHC active runImmediately { ");
 		oxy("if((trTime()-cActivationTime)<=30){");
@@ -890,6 +923,8 @@
 		oxy("}");
 		oxy("}");
 		oxyZ("}/*");
+
+		
 
 
 		// rmCreateTrigger("SetStartAge");
