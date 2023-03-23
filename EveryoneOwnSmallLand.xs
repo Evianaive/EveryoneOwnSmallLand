@@ -293,6 +293,7 @@
 
 		//玩家所在位置的Id
 		int PlayerLocationArrayId = xsArrayCreateInt(8,0,"PlayerLocationId");
+		//rmPlacePlayersCircular(0.35, 0.35, 0.0);   	//圆形放置玩家
 		if(cNumberNonGaiaPlayers<8)
 		{
 			int RandStart = rmRandInt(0,6);
@@ -306,6 +307,18 @@
 			{
 				Add = 3;
 			}
+			//if(cNumberNonGaiaPlayers==6 || cNumberNonGaiaPlayers==7)
+			//{
+			//	Add = 1;
+			//}
+
+			// int RandStart = rmRandInt(0,6);
+			// float Add = 7/cNumberNonGaiaPlayers;
+			// while (RandStart>0)
+			// {
+			// 	RandStart = RandStart - Add;
+			// }
+			// RandStart = RandStart + Add;
 
 			for(i=1; <=cNumberNonGaiaPlayers)
 			{
@@ -333,7 +346,7 @@
 		}
 
 
-		//玩家起始位置周围地形更改
+		//玩家起始位置周围地形
 		float AreaSizePlayer = rmAreaTilesToFraction(30);
 		for(i=1; <=cNumberNonGaiaPlayers)
 		{
@@ -348,7 +361,7 @@
 			rmSetAreaMaxBlobs(id, 1);
 			rmSetAreaTerrainType(id,PlayerTerrain);
 			rmBuildArea(id);
-		}	
+		}
 		
 		//声明油田（补给库）
 		int Oil = rmCreateObjectDef("Oil");
@@ -401,28 +414,27 @@
 
 			for(i=1; <=cNumberNonGaiaPlayers){
 
-				oxy("rule _activatetaverns"+i+" active runImmediately { ");
 				//对无酒馆国家启用酒馆
-
-				if (rmGetPlayerCiv(i) == rmGetCivID("XPAztec") || rmGetPlayerCiv(i) == rmGetCivID("XPSioux") || rmGetPlayerCiv(i) == rmGetCivID("XPIroquois") || rmGetPlayerCiv(i) == rmGetCivID("DEInca") ||
-				// rmGetPlayerCiv(i) == rmGetCivID("Chinese") || rmGetPlayerCiv(i) == rmGetCivID("Japanese") || rmGetPlayerCiv(i) == rmGetCivID("Indians") ||
-				rmGetPlayerCiv(i) == rmGetCivID("DEHausa") || rmGetPlayerCiv(i) == rmGetCivID("DEEthiopians") || rmGetPlayerCiv(i) == rmGetCivID("DEItalians"))
-				{
-					oxy("trUnforbidProtounit("+i+", \"deTavern\");");
-					// oxy("trTechSetStatus("+i+",10412,2);")
-					// oxy("trUnforbidProtounit("+i+", \"Saloon\");");
-					oxy("xsDisableRule(\"_activatetaverns"+i+"\");");
-				}
-				oxy("trUnforbidProtounit("+i+", \"SaloonOutlawRifleman\");");
-				oxy("trUnforbidProtounit("+i+", \"SaloonOutlawPistol\");");
-				oxy("trUnforbidProtounit("+i+", \"SaloonOutlawRider\");");
-				oxy("trUnforbidProtounit("+i+", \"MercJaeger\");");
-				oxy("trUnforbidProtounit("+i+", \"MercLandsknecht\");");
-				//oxy("trUnforbidProtounit("+i+", \"MercMameluke\");");
-				oxy("trUnforbidProtounit("+i+", \"MercHighlander\");");
-				oxy("trUnforbidProtounit("+i+", \"MercBlackRider\");");
-				oxy("trUnforbidProtounit("+i+", \"MercBarbaryCorsair\");");
-				oxyZ("} /*");
+				// oxy("rule _activatetaverns"+i+" active runImmediately { ");
+				// if (rmGetPlayerCiv(i) == rmGetCivID("XPAztec") || rmGetPlayerCiv(i) == rmGetCivID("XPSioux") || rmGetPlayerCiv(i) == rmGetCivID("XPIroquois") || rmGetPlayerCiv(i) == rmGetCivID("DEInca") ||
+				// // rmGetPlayerCiv(i) == rmGetCivID("Chinese") || rmGetPlayerCiv(i) == rmGetCivID("Japanese") || rmGetPlayerCiv(i) == rmGetCivID("Indians") ||
+				// rmGetPlayerCiv(i) == rmGetCivID("DEHausa") || rmGetPlayerCiv(i) == rmGetCivID("DEEthiopians") || rmGetPlayerCiv(i) == rmGetCivID("DEItalians"))
+				// {
+				// 	oxy("trUnforbidProtounit("+i+", \"deTavern\");");
+				// 	// oxy("trTechSetStatus("+i+",10412,2);")
+				// 	// oxy("trUnforbidProtounit("+i+", \"Saloon\");");
+				// 	oxy("xsDisableRule(\"_activatetaverns"+i+"\");");
+				// }
+				// oxy("trUnforbidProtounit("+i+", \"SaloonOutlawRifleman\");");
+				// oxy("trUnforbidProtounit("+i+", \"SaloonOutlawPistol\");");
+				// oxy("trUnforbidProtounit("+i+", \"SaloonOutlawRider\");");
+				// oxy("trUnforbidProtounit("+i+", \"MercJaeger\");");
+				// oxy("trUnforbidProtounit("+i+", \"MercLandsknecht\");");
+				// //oxy("trUnforbidProtounit("+i+", \"MercMameluke\");");
+				// oxy("trUnforbidProtounit("+i+", \"MercHighlander\");");
+				// oxy("trUnforbidProtounit("+i+", \"MercBlackRider\");");
+				// oxy("trUnforbidProtounit("+i+", \"MercBarbaryCorsair\");");
+				// oxyZ("} /*");
 
 				//调整工厂工作速度
 				oxy("rule _FactoryAdjust"+i+" active runImmediately { ");
@@ -442,7 +454,15 @@
 
 				// 无建筑时结束
 				oxy("rule _DetectBuildingCount"+i+" active runImmediately { ");
-				oxy("if(trPlayerBuildingCount("+i+")==0){");
+				oxy("int BuildingNotCount = trPlayerUnitCountSpecific("+i+",\""+OilName+"\");");
+				// oxy("int BakerCount = trPlayerUnitCountSpecific("+i+",\"SPCXPBaker\");");
+				oxy("int BuildingCount = trPlayerBuildingCount("+i+");");//不计算围墙
+				// if(i == 1)
+				// {
+				// 	oxy("trChatSend(1, \"BuildingCount is \"+BuildingCount+\"\");");//调试用
+				// }
+				oxy("if(trPlayerBuildingCount("+i+")-BuildingNotCount==0){");
+				//oxy("if(trPlayerValidUnitAndBuildingCount("+i+")==0){");
 				oxy("	trSetPlayerDefeated("+i+");");
 				oxy("	xsDisableRule(\"_DetectBuildingCount"+i+"\");");
 				oxy("}");
@@ -484,7 +504,7 @@
 			// 修改城墙墙角血量
 			oxy("rule _WagonGetCornerHitPointAdjust active runImmediately { ");
 			oxy("for(i=1; <="+cNumberNonGaiaPlayers+"){");
-			oxy("trModifyProtounitData(\"SPCFortCorner\", i, 0, 1000.0, 1);");
+			oxy("trModifyProtounitData(\"SPCFortCorner\", i, 0, 5000.0, 1);");
 			oxy("}");
 			oxy("xsDisableRule(\"_WagonGetCornerHitPointAdjust\");");
 			oxyZ("}/*");
@@ -559,28 +579,51 @@
 
 				// SPCXPAmmoStorehouse
 
-				rmPlaceObjectDefAtLoc(WagonGetCorner,i,rmPlayerLocXFraction(i),ZPosOil1+OffsetZ/2);
+				rmPlaceObjectDefAtLoc(WagonGetCorner,i,rmPlayerLocXFraction(i),rmPlayerLocZFraction(i));
 				int WagonGetCornerUintId = rmGetUnitPlacedOfPlayer(WagonGetCorner,i);
-				oxy("rule _DamageWagonGetCorner"+i+" minInterval 2 active runImmediately { ");
+
+				
+				
+				oxy("rule _RenameCorner"+i+" active minInterval 5 runImmediately { ");
 				oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCFortCorner\") == 1){");
 				oxy("	trUnitSelectClear();");
 				oxy("	trUnitSelectByID("+WagonGetCornerUintId+");");
-				oxy("	trUnitChangeName(\"FixToUpdate\");");
+				oxy("	trUnitChangeName(\"&#x4FEE;&#x590D;&#x4EE5;&#x5347;&#x7EA7;FixToUpdate\");");//更改名字，乱码部分是中文
+				oxy("	trDamageUnit(50);");//扣50血，防止触发自动升级
+				oxy("	if(trUnitPercentDamaged()>0.01){");//如果trigger选择到的物体受伤高于%1
+				oxy("		xsDisableRule(\"_RenameCorner"+i+"\");");//关闭这个触发
+				oxy("		xsEnableRule(\"_DamageWagonGetCorner"+i+"\");");//启用这个名称的触发
+				oxy("	}");
+				oxy("}");
+				oxyZ("}/*");				
+
+				//trTime()-cActivationTime
+				oxy("rule _DamageWagonGetCorner"+i+" minInterval 2 inactive { ");//inactive为默认关闭
+				oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCFortCorner\") == 1){");
+				oxy("	trUnitSelectClear();");
+				oxy("	trUnitSelectByID("+WagonGetCornerUintId+");");
 				// 修好柱子时触发 升级时代
 				oxy("	if( trUnitPercentDamaged() == 0){");
-				oxy("		if(kbGetAgeForPlayer("+i+")==1){");
+				oxy("		if(kbGetAgeForPlayer("+i+")==1){");//这个表示当前为时代2
 				oxy("			if(trPlayerResourceCount("+i+",\"Food\")>1200 && trPlayerResourceCount("+i+",\"Gold\")>1000){");
+				oxy("				trPlayerGrantResources("+i+",\"Food\", -1200);");
+				oxy("				trPlayerGrantResources("+i+",\"Gold\", -1000);");
 				oxy("				trPlayerSetAge("+i+", 2, true);}");
-				oxy("		}｝");
+				oxy("		}");
 				oxy("		if(kbGetAgeForPlayer("+i+")==2){");
 				oxy("			if(trPlayerResourceCount("+i+",\"Food\")>2000 && trPlayerResourceCount("+i+",\"Gold\")>1200){");
+				oxy("				trPlayerGrantResources("+i+",\"Food\", -2000);");
+				oxy("				trPlayerGrantResources("+i+",\"Gold\", -1200);");
 				oxy("				trPlayerSetAge("+i+", 3, true);}");
-				oxy("		}｝");
+				oxy("		}");
 				oxy("		if(kbGetAgeForPlayer("+i+")==3){");
 				oxy("			if(trPlayerResourceCount("+i+",\"Food\")>4000 && trPlayerResourceCount("+i+",\"Gold\")>4000){");
-				oxy("				trPlayerSetAge("+i+", 3, true);}");
-				oxy("		}｝");
-				oxy("		trDamageUnit(50);");
+				oxy("				trPlayerGrantResources("+i+",\"Food\", -4000);");
+				oxy("				trPlayerGrantResources("+i+",\"Gold\", -4000);");
+				oxy("				trPlayerSetAge("+i+", 4, true);}");
+				oxy("		}");
+				oxy("		trDamageUnit(100);");
+				oxy("   }");
 				oxy("}");
 				oxyZ("}/*");
 
@@ -660,12 +703,12 @@
 		// oxy("xsDisableRule(\"_TimerAccessHC\");");
 		// oxyZ("}/*");
 
-		// oxy("rule _ForbidHC active runImmediately { ");
-		// oxy("for(i=1; <="+cNumberNonGaiaPlayers+"){");
-		// oxy("trPlayerSetHCAccess(i,false);");
-		// oxy("}");
-		// oxy("xsDisableRule(\"_ForbidHC\");");
-		// oxyZ("}/*");
+		oxy("rule _ForbidHC active runImmediately { ");
+		oxy("for(i=1; <="+cNumberNonGaiaPlayers+"){");
+		oxy("trPlayerSetHCAccess(i,false);");
+		oxy("}");
+		oxy("xsDisableRule(\"_ForbidHC\");");
+		oxyZ("}/*");
 
 		// oxy("rule _AccessHC active runImmediately { ");
 		// oxy("if((trTime()-cActivationTime)<=30){");
