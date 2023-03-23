@@ -58,7 +58,7 @@
 		return(AreaId);
 	}
 
-	void xsSetXZFloatArrayPair(int Index,float X,float Z,int XArrayId,int ZArrayId)
+	void xsSetXZFloatArrayPair(int Index=0,float X=0.0,float Z=0.0,int XArrayId=0,int ZArrayId=0)//声明函数必须要写默认值
 	{
 		xsArraySetFloat(XArrayId,Index,X);
 		xsArraySetFloat(ZArrayId,Index,Z);
@@ -161,76 +161,100 @@
 		int RoadArrayEndIdZ = xsArrayCreateFloat(26,0.0,"RoadArrayEndIdZ");
 
 		//Road 1 to 7
-		xsSetXZFloatArrayPair(0,0.48,,0.78,RoadArrayStartIdX,RoadArrayStartId);
-		xsSetXZFloatArrayPair(0,0.76,,0.78,RoadArrayEndIdX,RoadArrayEndId);
-		//Road 1 to 2 1
-		xsSetXZFloatArrayPair(1,0.74,,0.74,RoadArrayStartIdX,RoadArrayStartId);
-		xsSetXZFloatArrayPair(1,0.74,,0.46,RoadArrayEndIdX,RoadArrayEndId);
-		//Road 3 to 8
-		xsSetXZFloatArrayPair(2,0.56,,0.22,RoadArrayStartIdX,RoadArrayStartId);
-		xsSetXZFloatArrayPair(2,0.56,,0.50,RoadArrayEndIdX,RoadArrayEndId);
-		//Road 2 to 8 1
-		xsSetXZFloatArrayPair(3,0.48,,0.41,RoadArrayStartIdX,RoadArrayStartId);
-		xsSetXZFloatArrayPair(3,0.76,,0.41,RoadArrayEndIdX,RoadArrayEndId);
-		//Road 2 to 8 2
-		xsSetXZFloatArrayPair(4,0.48,,0.50,RoadArrayStartIdX,RoadArrayStartId);
-		xsSetXZFloatArrayPair(4,0.76,,0.50,RoadArrayEndIdX,RoadArrayEndId);
-		//Road 7 to 8
-		xsSetXZFloatArrayPair(5,0.46,,0.72,RoadArrayStartIdX,RoadArrayStartId);
-		xsSetXZFloatArrayPair(5,0.46,,0.44,RoadArrayEndIdX,RoadArrayEndId);
-		//Road 1 to 8
-		xsSetXZFloatArrayPair(6,0.56,,0.64,RoadArrayStartIdX,RoadArrayStartId);
-		xsSetXZFloatArrayPair(6,0.56,,0.36,RoadArrayEndIdX,RoadArrayEndId);
-		xsSetXZFloatArrayPair(7,0.56,,0.64,RoadArrayStartIdX,RoadArrayStartId);
-		xsSetXZFloatArrayPair(7,0.84,,0.64,RoadArrayEndIdX,RoadArrayEndId);
-		//Road 3 to 4
-		xsSetXZFloatArrayPair(8,0.64,,0.18,RoadArrayStartIdX,RoadArrayStartId);
-		xsSetXZFloatArrayPair(8,0.36,,0.18,RoadArrayEndIdX,RoadArrayEndId);
-		//Road 5 to 8 1
-		xsSetXZFloatArrayPair(9,0.18,,0.34,RoadArrayStartIdX,RoadArrayStartId);
-		xsSetXZFloatArrayPair(9,0.46,,0.34,RoadArrayEndIdX,RoadArrayEndId);
-		xsSetXZFloatArrayPair(10,0.46,,0.34,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(10,0.46,,0.62,RoadArrayEndIdX,RoadArrayEndIdZ);
-		//Road 4 to 8
-		xsSetXZFloatArrayPair(11,0.34,,0.02,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(11,0.34,,0.34,RoadArrayEndIdX,RoadArrayEndIdZ);
-		//Road 5 to 8 2
-		xsSetXZFloatArrayPair(12,0.12,,0.44,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(12,0.40,,0.44,RoadArrayEndIdX,RoadArrayEndIdZ);
-		//Road 5 to 6
-		xsSetXZFloatArrayPair(13,0.20,,0.38,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(13,0.20,,0.66,RoadArrayEndIdX,RoadArrayEndIdZ);
-		//Road 4 to 5
-		xsSetXZFloatArrayPair(14,0.18,,0.20,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(14,0.46,,0.18,RoadArrayEndIdX,RoadArrayEndIdZ);
-		xsSetXZFloatArrayPair(15,0.18,,0.20,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(15,0.18,,0.42,RoadArrayEndIdX,RoadArrayEndIdZ);
-		//Road 6 to 8
-		xsSetXZFloatArrayPair(16,0.32,,0.80,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(16,0.32,,0.52,RoadArrayEndIdX,RoadArrayEndIdZ);
-		xsSetXZFloatArrayPair(17,0.32,,0.52,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(17,0.58,,0.52,RoadArrayEndIdX,RoadArrayEndIdZ);
-		//Road 6 to 7
-		xsSetXZFloatArrayPair(18,0.20,,0.66,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(18,0.38,,0.84,RoadArrayEndIdX,RoadArrayEndIdZ);
-		xsSetXZFloatArrayPair(19,0.42,,0.80,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(19,0.22,,1.00,RoadArrayEndIdX,RoadArrayEndIdZ);
-		//Road 2 to 3
-		xsSetXZFloatArrayPair(20,0.82,,0.48,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(20,0.82,,0.20,RoadArrayEndIdX,RoadArrayEndIdZ);
-		xsSetXZFloatArrayPair(21,0.82,,0.20,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(21,0.54,,0.20,RoadArrayEndIdX,RoadArrayEndIdZ);
-		//Road 1 to 2 2
-		xsSetXZFloatArrayPair(22,0.76,,0.70,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(22,0.92,,0.54,RoadArrayEndIdX,RoadArrayEndIdZ);
-		xsSetXZFloatArrayPair(23,1.00,,0.62,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(23,0.82,,0.44,RoadArrayEndIdX,RoadArrayEndIdZ);
-		//Road Other
-		xsSetXZFloatArrayPair(24,0.00,,0.76,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(24,0.20,,0.56,RoadArrayEndIdX,RoadArrayEndIdZ);
+		xsSetXZFloatArrayPair(0,0.48,.78,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(0,0.76,.78,RoadArrayEndIdX,RoadArrayEndIdZ);
 
-		xsSetXZFloatArrayPair(25,0.62,,0.80,RoadArrayStartIdX,RoadArrayStartIdZ);
-		xsSetXZFloatArrayPair(25,0.62,,0.98,RoadArrayEndIdX,RoadArrayEndIdZ);
+		//Road 1 to 2 1
+		xsSetXZFloatArrayPair(1,0.74,.74,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(1,0.74,.46,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 3 to 8
+		xsSetXZFloatArrayPair(2,0.56,.22,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(2,0.56,.50,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 2 to 8 1
+		xsSetXZFloatArrayPair(3,0.48,.41,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(3,0.76,.41,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 2 to 8 2
+		xsSetXZFloatArrayPair(4,0.48,.50,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(4,0.76,.50,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 7 to 8
+		xsSetXZFloatArrayPair(5,0.46,.72,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(5,0.46,.44,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 1 to 8
+		xsSetXZFloatArrayPair(6,0.56,.64,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(6,0.56,.36,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		xsSetXZFloatArrayPair(7,0.56,.64,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(7,0.84,.64,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 3 to 4
+		xsSetXZFloatArrayPair(8,0.64,.18,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(8,0.36,.18,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 5 to 8 1
+		xsSetXZFloatArrayPair(9,0.18,.34,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(9,0.46,.34,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		xsSetXZFloatArrayPair(10,0.46,0.34,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(10,0.46,0.62,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 4 to 8
+		xsSetXZFloatArrayPair(11,0.34,0.02,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(11,0.34,0.34,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 5 to 8 2
+		xsSetXZFloatArrayPair(12,0.12,0.44,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(12,0.40,0.44,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 5 to 6
+		xsSetXZFloatArrayPair(13,0.20,0.38,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(13,0.20,0.66,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 4 to 5
+		xsSetXZFloatArrayPair(14,0.18,0.20,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(14,0.46,0.18,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		xsSetXZFloatArrayPair(15,0.18,0.20,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(15,0.18,0.42,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 6 to 8
+		xsSetXZFloatArrayPair(16,0.32,0.80,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(16,0.32,0.52,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		xsSetXZFloatArrayPair(17,0.32,0.52,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(17,0.58,0.52,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 6 to 7
+		xsSetXZFloatArrayPair(18,0.20,0.66,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(18,0.38,0.84,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		xsSetXZFloatArrayPair(19,0.42,0.80,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(19,0.22,1.00,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 2 to 3
+		xsSetXZFloatArrayPair(20,0.82,0.48,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(20,0.82,0.20,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		xsSetXZFloatArrayPair(21,0.82,0.20,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(21,0.54,0.20,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road 1 to 2 2
+		xsSetXZFloatArrayPair(22,0.76,0.70,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(22,0.92,0.54,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		xsSetXZFloatArrayPair(23,1.00,0.62,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(23,0.82,0.44,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		//Road Other
+		xsSetXZFloatArrayPair(24,0.00,0.76,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(24,0.20,0.56,RoadArrayEndIdX,RoadArrayEndIdZ);
+
+		xsSetXZFloatArrayPair(25,0.62,0.80,RoadArrayStartIdX,RoadArrayStartIdZ);
+		xsSetXZFloatArrayPair(25,0.62,0.98,RoadArrayEndIdX,RoadArrayEndIdZ);
 
 		//创建道路
 		for(RoadId = 0; <26)
@@ -244,9 +268,9 @@
 			float XLength = XPosEnd - XPosStart;
 			float ZLength = ZPosEnd - ZPosStart;
 			float Length = sqrt(XLength*XLength + ZLength*ZLength);
-			float Size = 0.008 * (playerTilesX/300.0)*(Length/0.28);
+			float Size = 0.008 *(Length/0.28);
 
-			rmSetAreaSize(SandGround, Size, Size);
+			rmSetAreaSize(SandGround, 0.008, 0.008);
 			rmSetAreaLocation(SandGround, (XPosStart+XPosEnd)/2, (ZPosStart+ZPosEnd)/2);
 			rmSetAreaWarnFailure(SandGround, true);
 			rmSetAreaSmoothDistance(SandGround, 0);
@@ -281,14 +305,14 @@
 		int PlayerSupplyArrayIdX2 = xsArrayCreateFloat(8,0.0,"PlayerSupplyX2");
 		int PlayerSupplyArrayIdZ2 = xsArrayCreateFloat(8,0.0,"PlayerSupplyZ2");
 
-		xsSetXZFloatArrayPair(0, 0.0, 0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2)
-		xsSetXZFloatArrayPair(1, 0.07, 0.0, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2)
-		xsSetXZFloatArrayPair(2, 0.0, -0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2)
-		xsSetXZFloatArrayPair(3, -0.01, -0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2)
-		xsSetXZFloatArrayPair(4, -0.07, 0.0, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2)
-		xsSetXZFloatArrayPair(5, -0.07, 0.0, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2)
-		xsSetXZFloatArrayPair(6, -0.01, 0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2)
-		xsSetXZFloatArrayPair(7, 0.0, -0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2)
+		xsSetXZFloatArrayPair(0, 0.0, 0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(1, 0.07, 0.0, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(2, 0.0, -0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(3, -0.01, -0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(4, -0.07, 0.0, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(5, -0.07, 0.0, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(6, -0.01, 0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(7, 0.0, -0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
 
 
 		//玩家所在位置的Id
@@ -496,7 +520,7 @@
 			// oxy("trModifyProtounitData(\"SPCXPWagonFood\", i, 15, 0, 1);");
 			// oxy("trModifyProtounitData(\"SPCXPWagonFood\", i, 16, 600, 1);");
 			oxy("trModifyProtounit(\"SPCXPWagonFood\", i, 15, -100);");
-			oxy("trModifyProtounit(\"SPCXPWagonFood\", i, 16, 500);");
+			oxy("trModifyProtounit(\"SPCXPWagonFood\", i, 16, 400);");
 			oxy("}");
 			oxy("xsDisableRule(\"_WagonFood\");");
 			oxyZ("}/*");
@@ -640,7 +664,7 @@
 				oxy("	if(FoodWagonCount>0){");
 				oxy("	trRemoveUnitsInArea("+i+",\"SPCXPWagonFood\",10);");
 				oxy("	for(i=0; <FoodWagonCount){");
-				oxy("		trUnitCreateFromSource(\"deMilitaryWagon\", \""+WagonBakerUnitId+"\", \""+WagonBakerUnitId+"\", "+i+");");
+				oxy("		trUnitCreateFromSource(\"deImperialWagon\", \""+WagonBakerUnitId+"\", \""+WagonBakerUnitId+"\", "+i+");");
 				oxy("	}}}");
 				oxyZ("}/*");
 
