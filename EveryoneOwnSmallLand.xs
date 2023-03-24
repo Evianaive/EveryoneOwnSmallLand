@@ -448,21 +448,6 @@
 				// oxy("trUnforbidProtounit("+i+", \"MercBarbaryCorsair\");");
 				// oxyZ("} /*");
 
-				//调整工厂工作速度
-				oxy("rule _FactoryAdjust"+i+" active runImmediately { ");
-				oxy("trTechSetStatus("+i+", 416, 2);");
-				oxy("trTechSetStatus("+i+", 417, 2);");
-				oxy("trTechSetStatus("+i+", 418, 2);");
-				//Spy科技
-				oxy("trTechSetStatus("+i+", 446, 2);");
-				oxy("trTechSetStatus("+i+", 1539, 2);");
-				oxy("trTechSetStatus("+i+", 1005, 0);");
-				oxy("trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherFoodTeam\", "+i+", 5, 0, 0);");
-				oxy("trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherWoodTeam\", "+i+", 5, 0, 0);");
-				oxy("trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherCoinTeam\", "+i+", 5, 0, 0);");
-				//oxy("trModifyProtounit(\"deSPCCapturableFactory\", "+i+", 63, 2);");
-				oxy("xsDisableRule(\"_FactoryAdjust"+i+"\");");
-				oxyZ("} /*");
 
 				// 无建筑时结束
 				oxy("rule _DetectBuildingCount"+i+" active runImmediately { ");
@@ -481,71 +466,82 @@
 				oxyZ("}/*");
 			}
 
-			//启用军医与医院
-			oxy("rule _Surgeon active runImmediately { ");
-			oxy("for(i=1; <="+cNumberNonGaiaPlayers+"){");
-			oxy("	trUnforbidProtounit(i, \"Surgeon\");");
-			oxy("	trUnforbidProtounit(i, \"FieldHospital\");");
-			//修改军医血量为150
-			oxy("	trModifyProtounitData(\"Surgeon\", i, 0, 150.0, 1);");
-			oxy("}");
-			oxy("xsDisableRule(\"_Surgeon\");");
-			oxyZ("} /*");
-
-			//修改矿工血量为1500;
-			oxy("rule _ModifyHealth active runImmediately { ");
-			oxy("for(i=1; <="+cNumberNonGaiaPlayers+"){");
-			oxy("	trModifyProtounitData(\"deMiner\", i, 0, 1500.0, 1);");
-			oxy("}");
-			oxy("xsDisableRule(\"_ModifyHealth\");");
-			oxyZ("} /*");
-
-			//启用食物马车，调整Baker
-			oxy("rule _WagonFood active runImmediately { ");
-			oxy("for(i=1; <="+cNumberNonGaiaPlayers+"){");
-			oxy("trModifyProtounitData(\"SPCXPBaker\", i, 0, 5000.0, 1);");
-			oxy("trUnforbidProtounit(i, \"SPCXPWagonFood\");");
-			// oxy("trModifyProtounitData(\"SPCXPWagonFood\", i, 15, 0, 1);");
-			// oxy("trModifyProtounitData(\"SPCXPWagonFood\", i, 16, 600, 1);");
-			oxy("trModifyProtounit(\"SPCXPWagonFood\", i, 15, -100);");
-			oxy("trModifyProtounit(\"SPCXPWagonFood\", i, 16, 400);");
-			oxy("}");
-			oxy("xsDisableRule(\"_WagonFood\");");
-			oxyZ("}/*");
-
-			// 修改城墙墙角血量
-			oxy("rule _WagonGetCornerHitPointAdjust active runImmediately { ");
-			oxy("for(i=1; <="+cNumberNonGaiaPlayers+"){");
-			oxy("trModifyProtounitData(\"SPCFortCorner\", i, 0, 5000.0, 1);");
-			oxy("}");
-			oxy("xsDisableRule(\"_WagonGetCornerHitPointAdjust\");");
-			oxyZ("}/*");
-
 			// oxy("rule _SetAutoConvert"+i+" active runImmediately { ");
 			// oxy("trModifyProtounitAction(\"deSPCSupplyCache\", "+i+", 0, 4000);");
 			// oxy("xsDisableRule(\"_SetAutoConvert"+i+"\");");
 			// oxyZ("} /*");
-
-			// 开局送2000资源 人口加满
-			oxy("rule _GiveResource active runImmediately { ");
+			
+			oxy("rule _StartSettings active runImmediately { ");
 			for(i=1; <=cNumberNonGaiaPlayers)
 			{
-				oxy("trPlayerGrantResources("+i+",\"Food\", 2000);");
-				oxy("trPlayerGrantResources("+i+",\"Wood\", 2000);");
-				oxy("trPlayerGrantResources("+i+",\"Gold\", 2000);");
-				oxy("trModifyPlayerData("+i+",0,-1,300,0);");
+				oxy("if(kbGetAgeForPlayer("+i+")<1){ trPlayerSetAge("+i+", 1, true); }");// 如果没到时代2，设置玩家时代为时代2
+				oxy("trPlayerGrantResources("+i+",\"Food\", 2000);");// 开局送2000资源
+				oxy("trPlayerGrantResources("+i+",\"Wood\", 2000);");// 开局送2000资源
+				oxy("trPlayerGrantResources("+i+",\"Gold\", 2000);");// 开局送2000资源
+				oxy("trModifyPlayerData("+i+",0,-1,300,0);");// 人口加满
 			}
-			oxy("xsDisableRule(\"_GiveResource\");");
-			oxyZ("}/*");			
+			oxy("for(i=1; <="+cNumberNonGaiaPlayers+"){");
+			// 血量修改相关,i表示玩家序号，0为血量的field，5000.0为数值(填5000也可)，1为修改的方式为设置
+			oxy("	trModifyProtounitData(\"SPCFortCorner\", i, 0, 5000.0, 1);");// 修改城墙墙角血量			
+			oxy("	trModifyProtounitData(\"SPCXPBaker\", i, 0, 5000.0, 1);");// 修改面包房血量			
+			oxy("	trModifyProtounitData(\"deMiner\", i, 0, 1500.0, 1);");// 修改矿工血量为1500;
+			oxy("	trModifyProtounitData(\"Surgeon\", i, 0, 100.0, 1);");// 修改军医血量为100
+			// 启用单位
+			oxy("	trUnforbidProtounit(i, \"SPCXPWagonFood\");");// 启用食物车
+			oxy("	trUnforbidProtounit(i, \"Surgeon\");");// 启用军医
+			oxy("	trUnforbidProtounit(i, \"FieldHospital\");");// 启用医院
+			// 关闭单位
+			oxy("	trForbidProtounit(i, \"Saloon\");");//关闭酒馆
+			oxy("	trForbidProtounit(i, \"deTavern\");");//关闭酒馆
+			oxy("	trForbidProtounit(i, \"ypMonastery\");");//关闭修道院(不清楚名称是否正确)
+			oxy("	trForbidProtounit(i, \"deStateCapitolTrainCoveredWagon\");");//关闭一系列州议会马车
+			oxy("	trForbidProtounit(i, \"deStateCapitolTrainMillWagon\");");
+			oxy("	trForbidProtounit(i, \"deStateCapitolTrainHaciendaWagon\");");
+			oxy("	trForbidProtounit(i, \"deStateCapitolTrainTradingPostWagon\");");
+			oxy("	trForbidProtounit(i, \"deStateCapitolTrainOutpostWagon\");");
+			oxy("	trForbidProtounit(i, \"deStateCapitolTrainPlantationWagon\");");
+			oxy("	trForbidProtounit(i, \"deStateCapitolTrainBankWagon\");");
+			// 调整食物马车价格
+			oxy("	trModifyProtounit(\"SPCXPWagonFood\", i, 15, -100);"); //15表示金子，这句意思是玩家i的马车金价-100
+			oxy("	trModifyProtounit(\"SPCXPWagonFood\", i, 16, 400);"); //16表示木头
+			// 调整Action开关
+			oxy("	trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherFoodTeam\", i, 5, 0, 0);");//关闭工厂队伍采肉
+			oxy("	trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherWoodTeam\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherCoinTeam\", i, 5, 0, 0);");
+			//禁用村民建造建筑
+			oxy("	trModifyProtounitAction(\"ypSettlerIndian\", \"Build\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"ypSettlerJapanese\", \"Build\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"ypSettlerAsian\", \"Build\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"deSettlerAfrican\", \"Build\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"Settler\", \"Build\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"Coureur\", \"Build\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"deArchitect\", \"Build\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"SettlerNative\", \"Build\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"SettlerWagon\", \"Build\", i, 5, 0, 0);");
+			//禁用村民收集
+			oxy("	trModifyProtounitAction(\"ypSettlerIndian\", \"Gather\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"ypSettlerJapanese\", \"Gather\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"ypSettlerAsian\", \"Gather\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"deSettlerAfrican\", \"Gather\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"Settler\", \"Gather\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"Coureur\", \"Gather\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"deArchitect\", \"Gather\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"SettlerNative\", \"Gather\", i, 5, 0, 0);");
+			oxy("	trModifyProtounitAction(\"SettlerWagon\", \"Gather\", i, 5, 0, 0);");
 
-			// 设置玩家时代至少为时代2
-			oxy("rule _SetStartAge2 active runImmediately { ");
-			for(i=1; <=cNumberNonGaiaPlayers)
-			{
-				oxy("if(kbGetAgeForPlayer("+i+")<1){");
-				oxy("trPlayerSetAge("+i+", 1, true);}");
-			}
-			oxy("xsDisableRule(\"_SetStartAge2\");");
+			// 调整科技状态
+			oxy("	trTechSetStatus(i, 416, 2);");// 工厂三个科技已经研究
+			oxy("	trTechSetStatus(i, 417, 2);");
+			oxy("	trTechSetStatus(i, 418, 2);");
+			oxy("	trTechSetStatus(i, 1005, 0);");// 工厂造炮加速科技状态为0（不可研究），1为可研究，2为已经研究
+			oxy("	trTechSetStatus(i, 446, 2);");// Spy科技
+			oxy("	trTechSetStatus(i, 1539, 2);");// Spy科技
+			// <tech name="DEHCFedMXBustamante" type="Normal">
+			// <tech name="DEHCSPCLincolnMilitia" type="Normal">
+			// <tech name="DEHCFedMoultriesMilitia" type="Normal">
+
+			oxy("}");
+			oxy("xsDisableRule(\"_StartSettings\");");//关闭_StartSettings这个触发，即关闭本触发
 			oxyZ("}/*");
 		}
 
