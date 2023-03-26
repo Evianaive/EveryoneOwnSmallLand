@@ -21,7 +21,7 @@
 	int rmAddAreaInfluenceBox (int AreaId = 0, float CenterX = 0.5, float CenterZ = 0.5, float SizeX = 0.1, float SizeZ = 0.1) {
 
 		//float SegmentFraction = rmXMetersToFraction(10);
-		float SegmentFraction = 0.03;
+		float SegmentFraction = 0.032;
 		float Temp = 0.02;
 
 		rmSetAreaSize(AreaId, SegmentFraction, SegmentFraction);
@@ -67,8 +67,8 @@
 	void main(void)
 	{
 		// ---------------------------------------- Map Info -------------------------------------------
-		int playerTilesX=300;			//设定地图X大小
-		int playerTilesZ=300;			//设定地图Z大小（帝国3的Y是高度，Z才是我们平常所用到的Y）
+		int playerTilesX=240;			//设定地图X大小
+		int playerTilesZ=240;			//设定地图Z大小（帝国3的Y是高度，Z才是我们平常所用到的Y）
 
 
 		string MapTerrain ="Carolinas\ground_marsh3_car";	//<-------- 地图地形，自己参照剧情编辑器 <--------
@@ -268,7 +268,7 @@
 			float XLength = XPosEnd - XPosStart;
 			float ZLength = ZPosEnd - ZPosStart;
 			float Length = sqrt(XLength*XLength + ZLength*ZLength);
-			float Size = 0.008 *(Length/0.28);
+			float Size = 0.008 *(Length/0.28)*(300.0/playerTilesX);
 
 			rmSetAreaSize(SandGround, Size, Size);
 			rmSetAreaLocation(SandGround, (XPosStart+XPosEnd)/2, (ZPosStart+ZPosEnd)/2);
@@ -288,32 +288,44 @@
 		}
 
 
-		//油田2偏移值数组
+		//油田1偏移值数组
 		int PlayerSupplyArrayIdX = xsArrayCreateFloat(8,0.0,"PlayerSupplyX");
 		int PlayerSupplyArrayIdZ = xsArrayCreateFloat(8,0.0,"PlayerSupplyZ");
 
 		xsSetXZFloatArrayPair(0,0.07,0.07,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
 		xsSetXZFloatArrayPair(1,0.07,-0.07,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
-		xsSetXZFloatArrayPair(2,0.07,-0.07,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
-		xsSetXZFloatArrayPair(3,0.07,-0.07,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
-		xsSetXZFloatArrayPair(4,-0.07,0.07,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
-		xsSetXZFloatArrayPair(5,-0.07,0.07,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
-		xsSetXZFloatArrayPair(6,0.07,0.07,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
-		xsSetXZFloatArrayPair(7,0.02,0.07,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
+		xsSetXZFloatArrayPair(2,0.07,-0.065,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
+		xsSetXZFloatArrayPair(3,0.07,-0.065,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
+		xsSetXZFloatArrayPair(4,-0.075,0.07,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
+		xsSetXZFloatArrayPair(5,-0.075,0.07,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
+		xsSetXZFloatArrayPair(6,0.04,0.065,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
+		xsSetXZFloatArrayPair(7,-0.02,0.03,PlayerSupplyArrayIdX,PlayerSupplyArrayIdZ);
 
 		//油田2偏移值数组
 		int PlayerSupplyArrayIdX2 = xsArrayCreateFloat(8,0.0,"PlayerSupplyX2");
 		int PlayerSupplyArrayIdZ2 = xsArrayCreateFloat(8,0.0,"PlayerSupplyZ2");
 
-		xsSetXZFloatArrayPair(0, 0.0, 0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
-		xsSetXZFloatArrayPair(1, 0.07, 0.0, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
-		xsSetXZFloatArrayPair(2, 0.0, -0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
-		xsSetXZFloatArrayPair(3, -0.01, -0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
-		xsSetXZFloatArrayPair(4, -0.07, 0.0, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
-		xsSetXZFloatArrayPair(5, -0.07, 0.0, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
-		xsSetXZFloatArrayPair(6, -0.01, 0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
-		xsSetXZFloatArrayPair(7, 0.0, -0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(0, 0.01, 0.07, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(1, 0.07, -0.015, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(2, 0.01, -0.065, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(3, 0.01, -0.065, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(4, -0.075, 0.02, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(5, -0.075, 0.02, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(6, -0.02, 0.065, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
+		xsSetXZFloatArrayPair(7, -0.02, -0.02, PlayerSupplyArrayIdX2, PlayerSupplyArrayIdZ2);
 
+		//面包店偏移值数组
+		int BakerArrayIdX = xsArrayCreateFloat(8,0.0,"PlayerBakerX2");
+		int BakerArrayIdZ = xsArrayCreateFloat(8,0.0,"PlayerBakerZ2");
+
+		xsSetXZFloatArrayPair(0, -0.01, 0.07, BakerArrayIdX, BakerArrayIdZ);
+		xsSetXZFloatArrayPair(1, 0.07, 0.015, BakerArrayIdX, BakerArrayIdZ);
+		xsSetXZFloatArrayPair(2, -0.01, -0.065, BakerArrayIdX, BakerArrayIdZ);
+		xsSetXZFloatArrayPair(3, -0.01, -0.065, BakerArrayIdX, BakerArrayIdZ);
+		xsSetXZFloatArrayPair(4, -0.075, -0.01, BakerArrayIdX, BakerArrayIdZ);
+		xsSetXZFloatArrayPair(5, -0.075, -0.01, BakerArrayIdX, BakerArrayIdZ);
+		xsSetXZFloatArrayPair(6, 0, 0.03, BakerArrayIdX, BakerArrayIdZ);
+		xsSetXZFloatArrayPair(7, 0.015, 0.02, BakerArrayIdX, BakerArrayIdZ);
 
 		//玩家所在位置的Id
 		int PlayerLocationArrayId = xsArrayCreateInt(8,0,"PlayerLocationId");
@@ -379,16 +391,25 @@
 		int Oil = rmCreateObjectDef("Oil");
 		string OilName = "Oil";
 		//是否使用工厂作为油田？否则使用
-		bool UseFactory = true;
+		bool UseFactory = false;
+
+		//声明火药仓库
+		int DeDepot = rmCreateObjectDef("DeDepot");
+		rmAddObjectDefItem(DeDepot,"deDepot",1,0);
 
 		//deSPCSupplyCache
 		//deSPCCommandPost
 		//定义未知矿工 deREVFilibuster
 		int Miner = rmCreateObjectDef("Miner");
 		rmAddObjectDefItem(Miner,"deMiner",1,0);
+		rmSetObjectDefMinDistance(Miner, 0.0);
+		rmSetObjectDefMaxDistance(Miner, 10.0);
+
 		//定义军医
 		int Surgeon = rmCreateObjectDef("Surgeon");
 		rmAddObjectDefItem(Surgeon,"Surgeon",1,0);
+		rmSetObjectDefMinDistance(Surgeon, 0.0);
+		rmSetObjectDefMaxDistance(Surgeon, 10.0);
 
 		//定义起始单位（civs.xml定义那些开局单位）
 		int startingUnits = rmCreateStartingUnitsObjectDef(5.0);
@@ -398,10 +419,13 @@
 		//设定获取马车的单位
 		int WagonGetCorner = rmCreateObjectDef("WagonGetCorner");
 		rmAddObjectDefItem(WagonGetCorner,"SPCFortCorner",1,0);
+		// rmSetObjectDefMinDistance(WagonGetCorner, 0.0);
+		// rmSetObjectDefMaxDistance(WagonGetCorner, 0.0);
 
 		int WagonBaker = rmCreateObjectDef("WagonBaker");
 		rmAddObjectDefItem(WagonBaker,"SPCXPBaker",1.0);
 
+		// 判断是否是游牧时代开局
 		if (rmGetNomadStart())
 		{
 			rmAddObjectDefItem(Oil, "deSPCCommandPost", 1, 0.0);
@@ -411,11 +435,17 @@
 			if(UseFactory)
 			{
 				rmAddObjectDefItem(Oil, "deSPCCapturableFactory",1,0);
+				// rmSetObjectDefMinDistance(Oil, 0.0);
+				// rmSetObjectDefMaxDistance(Oil, 2.0);
 				OilName = "deSPCCapturableFactory";
 			}
 			else{
 				rmAddObjectDefItem(Oil,"deSPCSupplyCache",1,0);
+				// rmSetObjectDefMinDistance(Oil, 0.0);
+				// rmSetObjectDefMaxDistance(Oil, 2.0);
 				OilName = "deSPCSupplyCache";
+				// rmAddObjectDefItem(Oil,"ypWCPorcelainTower5",1,0);
+				// OilName = "ypWCPorcelainTower5";
 			}
 
 
@@ -451,7 +481,7 @@
 
 				// 无建筑时结束
 				oxy("rule _DetectBuildingCount"+i+" active runImmediately { ");
-				oxy("int BuildingNotCount = trPlayerUnitCountSpecific("+i+",\""+OilName+"\");");
+				oxy("int BuildingNotCount = trPlayerUnitCountSpecific("+i+",\""+OilName+"\") + trPlayerUnitCountSpecific("+i+",\"deDepot\");");
 				// oxy("int BakerCount = trPlayerUnitCountSpecific("+i+",\"SPCXPBaker\");");
 				oxy("int BuildingCount = trPlayerBuildingCount("+i+");");//不计算围墙
 				// if(i == 1)
@@ -482,10 +512,11 @@
 			}
 			oxy("for(i=1; <="+cNumberNonGaiaPlayers+"){");
 			// 血量修改相关,i表示玩家序号，0为血量的field，5000.0为数值(填5000也可)，1为修改的方式为设置
-			oxy("	trModifyProtounitData(\"SPCFortCorner\", i, 0, 5000.0, 1);");// 修改城墙墙角血量			
-			oxy("	trModifyProtounitData(\"SPCXPBaker\", i, 0, 5000.0, 1);");// 修改面包房血量			
+			oxy("	trModifyProtounitData(\"SPCFortCorner\", i, 0, 15000.0, 1);");// 修改城墙墙角血量			
+			oxy("	trModifyProtounitData(\"SPCXPBaker\", i, 0, 10000.0, 1);");// 修改面包房血量			
 			oxy("	trModifyProtounitData(\"deMiner\", i, 0, 1500.0, 1);");// 修改矿工血量为1500;
-			oxy("	trModifyProtounitData(\"Surgeon\", i, 0, 100.0, 1);");// 修改军医血量为100
+			oxy("	trModifyProtounitData(\"Surgeon\", i, 0, 200.0, 1);");// 修改军医血量为100
+			oxy("	trModifyProtounitData(\"deImperialWagon\", i, 0, 250.0, 1);");// 修改帝国战争马车血量为250
 			// 启用单位
 			oxy("	trUnforbidProtounit(i, \"SPCXPWagonFood\");");// 启用食物车
 			oxy("	trUnforbidProtounit(i, \"Surgeon\");");// 启用军医
@@ -566,7 +597,7 @@
 
 			//调用城镇中心坐标
 			// vector TCLocation = rmGetUnitPosition(rmGetUnitPlacedOfPlayer(TownCenterID, i));
-
+			int ArrayIndex = i-1;
 			int PlayerLocationId = xsArrayGetInt(PlayerLocationArrayId,i-1);
 			if (rmGetNomadStart())
 			{
@@ -577,6 +608,7 @@
 				float XPosOil1 = rmPlayerLocXFraction(i) + xsArrayGetFloat(PlayerSupplyArrayIdX,PlayerLocationId) ;
 				float ZPosOil1 = rmPlayerLocZFraction(i) + xsArrayGetFloat(PlayerSupplyArrayIdZ,PlayerLocationId) ;
 				rmPlaceObjectDefAtLoc(Oil, i, XPosOil1, ZPosOil1);
+				int Oil1UnitId = rmGetUnitPlacedOfPlayer(Oil,i);
 
 				float XPosOil2 = rmPlayerLocXFraction(i) + xsArrayGetFloat(PlayerSupplyArrayIdX2,PlayerLocationId) ;
 				float ZPosOil2 = rmPlayerLocZFraction(i) + xsArrayGetFloat(PlayerSupplyArrayIdZ2,PlayerLocationId) ;
@@ -584,19 +616,15 @@
 
 				float OffsetX = XPosOil2-XPosOil1;
 				float OffsetZ = ZPosOil2-ZPosOil1;
-
 				// SPCXPAmmoStorehouse
 
 				rmPlaceObjectDefAtLoc(WagonGetCorner,i,rmPlayerLocXFraction(i),rmPlayerLocZFraction(i));
 				int WagonGetCornerUintId = rmGetUnitPlacedOfPlayer(WagonGetCorner,i);
-
-				
-				
 				oxy("rule _RenameCorner"+i+" active minInterval 5 runImmediately { ");
 				oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCFortCorner\") == 1){");
 				oxy("	trUnitSelectClear();");
 				oxy("	trUnitSelectByID("+WagonGetCornerUintId+");");
-				oxy("	trUnitChangeName(\"&#x4FEE;&#x590D;&#x4EE5;&#x5347;&#x7EA7;FixToUpdate\");");//更改名字，乱码部分是中文
+				oxy("	trUnitChangeName(\"FixToUpdate\");");//更改名字，乱码部分是中文
 				oxy("	trDamageUnit(50);");//扣50血，防止触发自动升级
 				oxy("	if(trUnitPercentDamaged()>0.01){");//如果trigger选择到的物体受伤高于%1
 				oxy("		xsDisableRule(\"_RenameCorner"+i+"\");");//关闭这个触发
@@ -635,10 +663,10 @@
 				oxy("}");
 				oxyZ("}/*");
 
-
-				rmPlaceObjectDefAtLoc(WagonBaker,i,XPosOil1+OffsetX/2,ZPosOil1+OffsetZ/2);
+				float XPosBaker = rmPlayerLocXFraction(i) + xsArrayGetFloat(BakerArrayIdX,PlayerLocationId) ;
+				float ZPosBaker = rmPlayerLocZFraction(i) + xsArrayGetFloat(BakerArrayIdZ,PlayerLocationId) ;
+				rmPlaceObjectDefAtLoc(WagonBaker,i,XPosBaker,ZPosBaker);
 				int WagonBakerUnitId = rmGetUnitPlacedOfPlayer(WagonBaker,i);
-				// trCountUnitsInArea
 				oxy("rule _WagonBakerConvert"+i+" minInterval 2 active { ");
 				oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCXPBaker\") == 1){");
 				oxy("	trUnitSelectClear();");
@@ -652,18 +680,123 @@
 				oxy("	}}}");
 				oxyZ("}/*");
 
-				// deCommandery (Train SettlerWagon)
+				// 仓库触发
+				rmPlaceObjectDefAtLoc(DeDepot,i,XPosOil1+OffsetX/2,ZPosOil1+OffsetZ/2);
+				int DeDepotUnitId = rmGetUnitPlacedOfPlayer(DeDepot,i);
+				oxy("rule _DeDepotBoom"+i+" minInterval 2 active { ");
+				oxy("trUnitSelectClear();");
+				oxy("trUnitSelectByID("+DeDepotUnitId+");");
+				oxy("if( trUnitDead()==true ){");
+				// oxy("	trChatSend("+i+", \"BuildingCount is "+DeDepotUnitId+"\");");
+				oxy("	for(i=1; <="+cNumberNonGaiaPlayers+"){");
+				oxy("		trUnitSelectClear();");
+				oxy("		trUnitSelectByID("+Oil1UnitId+");");
+				oxy("		trUnitSelectByID("+(Oil1UnitId+1)+");");
+				// oxy("		trUnitDelete(false);");
+				// oxy("		trChatSend(1,\"_DeDepotBoom"+i+"\");");
+				oxy("		trRemoveUnitsInArea(i,\""+OilName+"\",20);");
+				oxy("	}");
+				oxy("	xsDisableRule(\"_DeDepotBoom"+i+"\");");//关闭这个触发
+				oxy("}");
+				oxy("else{");
+				// oxy("	int i=1;");
+				// oxy("	while(i<="+cNumberNonGaiaPlayers+"){");
+				oxy("	trUnitSelectByID("+Oil1UnitId+");");
+				oxy("	trUnitSelectByID("+(Oil1UnitId+1)+");");
+				// trConvertUnitsInArea(1,1,"Unit",10);
+				oxy("	for(i=1; <="+cNumberNonGaiaPlayers+"){");
+				oxy("		if(trUnitIsNotOwnedBy(i)){");
+				oxy("			int PlayerISurgeonCount = trCountUnitsInArea(\""+DeDepotUnitId+"\",i,\"deImperialWagon\",10);");
+				oxy("			if(PlayerISurgeonCount>0){");
+				oxy("				trUnitConvert(i);");
+				oxy("				trUnitSelectClear();");
+				oxy("				trUnitSelectByID("+DeDepotUnitId+");");
+				oxy("				trRemoveUnitsInArea(i,\"deImperialWagon\",10);");
+				// oxy("				trChatSend(i, \"BuildingCount is "+DeDepotUnitId+"\");");
+				// oxy("		trRemoveUnitsInArea(0,\""+OilName+"\",10);");
+				// oxy("		trRemoveUnitsInArea(2,\""+OilName+"\",10);");
+				// oxy("				i = i+8;");
+				oxy("				break;");
+				oxy("			}");
+				oxy("		}");
+				// oxy("		i = i+1;");
+				oxy("	}");
+				oxy("}");
+				oxyZ("}/*");
 
-				// //SPCFortCorner
-				// //ypSPCJapaneseFortCorner
-				// //ypSPCIndianFortCorner
+				oxy("rule _PlayerDefeated"+i+" minInterval 2 active { ");
+				oxy("	bool Defeated = trPlayerDefeated("+i+");");
+				oxy("	if(Defeated){");
+				oxy("		trPlayerKillAllBuildings("+i+");");
+				oxy("	}");
+				//oxy("	xsDisableRule(\"_PlayerDefeated"+i+"\");");
+				oxyZ("}/*");
+
+				// oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCXPBaker\") == 1){");
+				// oxy("}");
+
+
+				// trPlayerKillAllBuildings
+				// trPlayerKillAllUnits
+				// oxy("rule _CaptureOil"+i+" minInterval 2 active { ");
+				// oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCXPBaker\") == 1){");
+				// oxy("	trUnitSelectClear();");
+				// oxy("	trUnitSelectByID("+WagonBakerUnitId+");");
+				// // kbUnitGetPlayerID
+				// // oxy("	int FoodWagonCount = trCountUnitsInArea(\""+WagonBakerUnitId+"\","+i+",\"SPCXPWagonFood\",10);");
+				// // oxy("	if(FoodWagonCount>0){");
+				// // oxy("	trRemoveUnitsInArea("+i+",\"SPCXPWagonFood\",10);");
+				// // oxy("	for(i=0; <FoodWagonCount){");
+				// // oxy("		trUnitCreateFromSource(\"deImperialWagon\", \""+WagonBakerUnitId+"\", \""+WagonBakerUnitId+"\", "+i+");");
+				// // oxy("	}}");
+				// // oxy("	int PlayerId = trCurrentPlayer();");
+				// // oxy("	int PlayerLocationArrayId = xsArrayCreateInt(8,0,\"PlayerLocationId\");");
+				// // oxy("	int PlayerId = xsArrayGetInt(PlayerLocationArrayId,"+ArrayIndex+");");
+				// // oxy("	int PlayerId = kbUnitGetPlayerID("+WagonBakerUnitId+");");
+				// oxy("	trChatSend(1, \"BuildingCount is \"+PlayerId+\"\");");
+				// oxy("}");
+				// oxy("else{");
+				// oxy("	");
+				// oxy("}");
+				// oxyZ("}/*");
+
+				// for(int j=1;<=cNumberNonGaiaPlayers)
+				// {
+				// 	string BeginState = "active";
+				// 	if(i==j)
+				// 	{
+				// 		BeginState = "inactive";
+				// 	}
+				// 	// string NameTriggerjCapi = "_CaptureOil"+i+""+j;
+				// 	oxy("rule _CaptureOil"+i+""+j+" minInterval 2 "+BeginState+" { ");
+				// 	oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCXPBaker\") == 1){");
+				// 	oxy("	trUnitSelectClear();");
+				// 	oxy("	trUnitSelectByID("+WagonBakerUnitId+");");
+				// 	oxy("	int SurgeonCount = trCountUnitsInArea(\""+WagonBakerUnitId+"\","+j+",\"Surgeon\",1);");
+				// 	oxy("	if(SurgeonCount>0){");
+				// 	oxy("		trRemoveUnitsInArea("+j+",\"Surgeon\",1.5);");
+				// 	oxy("		trUnitConvert("+j+");");
+				// 	oxy("		for(int p;<=cNumberNonGaiaPlayers){");
+				// 	oxy("			if(p!="+j+"){xsEnableRule(\"_CaptureOil"+i+"+\"p\"+\");}");
+				// 	oxy("		}");
+				// 	oxy("		xsDisableRule(\"_CaptureOil"+i+""+j+"\");");
+				// 	oxy("	}");
+				// 	oxy("}");
+				// 	oxyZ("}/*");
+				// }
+				
+
+
+
+
+				// 放置矿工
 				rmPlaceObjectDefAtLoc(Miner, i, rmPlayerLocXFraction(i)+0.02, rmPlayerLocZFraction(i)+0.02);
+				// 放置军医
 				rmPlaceObjectDefAtLoc(Surgeon, i , rmPlayerLocXFraction(i)-0.02, rmPlayerLocZFraction(i)-0.02);
-			}
 
-			//放置起始单位
-			// rmPlaceObjectDefAtLoc(startingUnits, i, rmXMetersToFraction(xsVectorGetX(TCLocation)), rmZMetersToFraction(xsVectorGetZ(TCLocation)));
-			// rmPlaceObjectDefAtLoc(startingUnits, i, 0.5, 0.5);
+				//放置起始单位
+				// rmPlaceObjectDefAtLoc(startingUnits, i, rmXMetersToFraction(xsVectorGetX(TCLocation)), rmZMetersToFraction(xsVectorGetZ(TCLocation)));
+			}
 
 			// deSPCCapturableFactory
 			// deArtilleryFoundryWagon
@@ -672,31 +805,14 @@
 			// deREVFilibuster
 			// ypSPCBrahminHealer
 			// tech SPCXPValleyForge
+			// deCommandery (Train SettlerWagon)
 
+			// //SPCFortCorner
+			// //ypSPCJapaneseFortCorner
+			// //ypSPCIndianFortCorner
 
 
 			//ypSPCIndianFortCorner
-
-
-			// forbid walls
-			// rmCreateTrigger("wallbuildlimit"+i);
-			// rmSwitchToTrigger(rmTriggerID("wallbuildlimit"+i));
-			// rmSetTriggerActive(true);
-			// rmSetTriggerRunImmediately(true);
-			// rmSetTriggerPriority(4);
-			// rmAddTriggerCondition("Always");
-
-			// rmAddTriggerEffect("Modify Protounit");
-			// rmSetTriggerEffectParam("Protounit", "WallStraight5");
-			// rmSetTriggerEffectParamInt("PlayerID", i);
-			// rmSetTriggerEffectParamInt("Field", 10);		// build limit
-			// rmSetTriggerEffectParamInt("Delta", 1, false);		// none
-
-			// rmAddTriggerEffect("Modify Protounit");
-			// rmSetTriggerEffectParam("Protounit", "WallStraight2");
-			// rmSetTriggerEffectParamInt("PlayerID", i);
-			// rmSetTriggerEffectParamInt("Field", 10);		// build limit
-			// rmSetTriggerEffectParamInt("Delta", 1, false);		// none
 		}
 
 		// 主城访问相关触发
