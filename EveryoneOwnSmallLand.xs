@@ -320,7 +320,7 @@
 
 		xsSetXZFloatArrayPair(0, -0.01, 0.07, BakerArrayIdX, BakerArrayIdZ);
 		xsSetXZFloatArrayPair(1, 0.07, 0.015, BakerArrayIdX, BakerArrayIdZ);
-		xsSetXZFloatArrayPair(2, -0.01, -0.065, BakerArrayIdX, BakerArrayIdZ);
+		xsSetXZFloatArrayPair(2, -0.015, -0.065, BakerArrayIdX, BakerArrayIdZ);
 		xsSetXZFloatArrayPair(3, -0.01, -0.065, BakerArrayIdX, BakerArrayIdZ);
 		xsSetXZFloatArrayPair(4, -0.075, -0.01, BakerArrayIdX, BakerArrayIdZ);
 		xsSetXZFloatArrayPair(5, -0.075, -0.01, BakerArrayIdX, BakerArrayIdZ);
@@ -727,7 +727,7 @@
 				oxy("rule _PlayerDefeated"+i+" minInterval 2 active { ");
 				oxy("	bool Defeated = trPlayerDefeated("+i+");");
 				oxy("	if(Defeated){");
-				oxy("		trPlayerKillAllBuildings("+i+");");
+				//oxy("		trPlayerKillAllBuildings("+i+");");
 				oxy("	}");
 				//oxy("	xsDisableRule(\"_PlayerDefeated"+i+"\");");
 				oxyZ("}/*");
