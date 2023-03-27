@@ -386,7 +386,10 @@
 			rmSetAreaTerrainType(id,PlayerTerrain);
 			rmBuildArea(id);
 		}
-		
+		// 定义城镇中心
+		int TownCenterID = rmCreateObjectDef("player TC");			
+		rmAddObjectDefItem(TownCenterID, "TownCenter", 1, 0);
+
 		//声明油田（补给库）
 		int Oil = rmCreateObjectDef("Oil");
 		string OilName = "Oil";
@@ -518,9 +521,10 @@
 			oxy("	trModifyProtounitData(\"Surgeon\", i, 0, 200.0, 1);");// 修改军医血量为100
 			oxy("	trModifyProtounitData(\"deImperialWagon\", i, 0, 250.0, 1);");// 修改帝国战争马车血量为250
 			// 启用单位
-			oxy("	trUnforbidProtounit(i, \"SPCXPWagonFood\");");// 启用食物车
+			// oxy("	trUnforbidProtounit(i, \"SPCXPWagonFood\");");// 启用食物车
 			oxy("	trUnforbidProtounit(i, \"Surgeon\");");// 启用军医
 			oxy("	trUnforbidProtounit(i, \"FieldHospital\");");// 启用医院
+			oxy("	trUnforbidProtounit(i, \"deMiner\");");// 启用矿工
 			// 关闭单位
 			oxy("	trForbidProtounit(i, \"Saloon\");");//关闭酒馆
 			oxy("	trForbidProtounit(i, \"deTavern\");");//关闭酒馆
@@ -539,26 +543,49 @@
 			oxy("	trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherFoodTeam\", i, 5, 0, 0);");//关闭工厂队伍采肉
 			oxy("	trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherWoodTeam\", i, 5, 0, 0);");
 			oxy("	trModifyProtounitAction(\"deSPCCapturableFactory\", \"AutoGatherCoinTeam\", i, 5, 0, 0);");
-			//禁用村民建造建筑
-			oxy("	trModifyProtounitAction(\"ypSettlerIndian\", \"Build\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"ypSettlerJapanese\", \"Build\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"ypSettlerAsian\", \"Build\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"deSettlerAfrican\", \"Build\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"Settler\", \"Build\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"Coureur\", \"Build\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"deArchitect\", \"Build\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"SettlerNative\", \"Build\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"SettlerWagon\", \"Build\", i, 5, 0, 0);");
-			//禁用村民收集
-			oxy("	trModifyProtounitAction(\"ypSettlerIndian\", \"Gather\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"ypSettlerJapanese\", \"Gather\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"ypSettlerAsian\", \"Gather\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"deSettlerAfrican\", \"Gather\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"Settler\", \"Gather\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"Coureur\", \"Gather\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"deArchitect\", \"Gather\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"SettlerNative\", \"Gather\", i, 5, 0, 0);");
-			oxy("	trModifyProtounitAction(\"SettlerWagon\", \"Gather\", i, 5, 0, 0);");
+			
+			//添加各民族村民到数组中
+			int SettlerStringArrayId = xsArrayCreateString(10, "Settler", "AllSettlers");
+			xsArraySetString(SettlerStringArrayId,0,"ypSettlerIndian");
+			xsArraySetString(SettlerStringArrayId,1,"ypSettlerJapanese");
+			xsArraySetString(SettlerStringArrayId,2,"ypSettlerAsian");
+			xsArraySetString(SettlerStringArrayId,3,"deSettlerAfrican");
+			xsArraySetString(SettlerStringArrayId,4,"Settler");
+			xsArraySetString(SettlerStringArrayId,5,"Coureur");
+			xsArraySetString(SettlerStringArrayId,6,"deArchitect");
+			xsArraySetString(SettlerStringArrayId,7,"SettlerNative");
+			xsArraySetString(SettlerStringArrayId,8,"SettlerWagon");
+			for(i=1;<=8)
+			{
+				string SettlerName = xsArrayGetString(SettlerStringArrayId, i);
+				//禁用村民
+				oxy("	trForbidProtounit(i, \""+SettlerName+"\");");
+				//禁用村民建造建筑
+				oxy("	trModifyProtounitAction(\""+SettlerName+"\", \"Build\", i, 5, 0, 0);");
+				//禁用村民收集
+				oxy("	trModifyProtounitAction(\""+SettlerName+"\", \"Gather\", i, 5, 0, 0);");
+			}
+			
+			// //禁用村民建造建筑
+			// oxy("	trModifyProtounitAction(\"ypSettlerIndian\", \"Build\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"ypSettlerJapanese\", \"Build\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"ypSettlerAsian\", \"Build\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"deSettlerAfrican\", \"Build\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"Settler\", \"Build\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"Coureur\", \"Build\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"deArchitect\", \"Build\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"SettlerNative\", \"Build\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"SettlerWagon\", \"Build\", i, 5, 0, 0);");
+			// //禁用村民收集
+			// oxy("	trModifyProtounitAction(\"ypSettlerIndian\", \"Gather\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"ypSettlerJapanese\", \"Gather\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"ypSettlerAsian\", \"Gather\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"deSettlerAfrican\", \"Gather\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"Settler\", \"Gather\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"Coureur\", \"Gather\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"deArchitect\", \"Gather\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"SettlerNative\", \"Gather\", i, 5, 0, 0);");
+			// oxy("	trModifyProtounitAction(\"SettlerWagon\", \"Gather\", i, 5, 0, 0);");
 
 			// 调整科技状态
 			oxy("	trTechSetStatus(i, 416, 2);");// 工厂三个科技已经研究
@@ -567,6 +594,7 @@
 			oxy("	trTechSetStatus(i, 1005, 0);");// 工厂造炮加速科技状态为0（不可研究），1为可研究，2为已经研究
 			oxy("	trTechSetStatus(i, 446, 2);");// Spy科技
 			oxy("	trTechSetStatus(i, 1539, 2);");// Spy科技
+			oxy("	trTechSetStatus(i, 5380, 2);");// 已研究TC变车科技
 			// <tech name="DEHCFedMXBustamante" type="Normal">
 			// <tech name="DEHCSPCLincolnMilitia" type="Normal">
 			// <tech name="DEHCFedMoultriesMilitia" type="Normal">
@@ -578,24 +606,8 @@
 
 		// 放置各种单位，并且设置单位的触发
 		for(i=1; <=cNumberNonGaiaPlayers)
-		{	
-			//定义城镇中心
-			// int TownCenterID = rmCreateObjectDef("player TC");
-			// if (rmGetNomadStart())
-			// {
-			// 	rmAddObjectDefItem(TownCenterID, "CoveredWagon", 1, 0.0);
-			// }
-			// else
-			// {
-			// 	rmAddObjectDefItem(TownCenterID, "TownCenter", 1, 0);
-			// }
-			// rmSetObjectDefMinDistance(TownCenterID, 0.0);
-			// rmSetObjectDefMaxDistance(TownCenterID, 0.0);
-
-			//放置城镇中心，rmPlaceObjectDefAtLoc第二个值为被放置玩家对象，这里使用了for循环，循环值=1，<=玩家人数，所以会放置所有玩家的城镇中心。
-			//rmPlaceObjectDefAtLoc(TownCenterID, i, rmPlayerLocXFraction(i), rmPlayerLocZFraction(i));
-
-			//调用城镇中心坐标
+		{
+			// 调用城镇中心坐标
 			// vector TCLocation = rmGetUnitPosition(rmGetUnitPlacedOfPlayer(TownCenterID, i));
 			int ArrayIndex = i-1;
 			int PlayerLocationId = xsArrayGetInt(PlayerLocationArrayId,i-1);
@@ -605,6 +617,20 @@
 				rmPlaceObjectDefAtLoc(startingUnits, i, rmPlayerLocXFraction(i), rmPlayerLocZFraction(i));
 			}
 			else{
+				// 放置城镇中心
+				rmPlaceObjectDefAtLoc(TownCenterID, i, rmPlayerLocXFraction(i), rmPlayerLocZFraction(i));
+				int TCUnitId = rmGetUnitPlacedOfPlayer(TownCenterID,i);
+				oxy("rule _WagonBakerConvert"+i+" minInterval 2 active { ");
+				oxy("	trUnitSelectClear();");
+				oxy("	trUnitSelectByID("+TCUnitId+");");
+				oxy("	int MinerCount = trCountUnitsInArea(\""+TCUnitId+"\","+i+",\"deMiner\",10);");
+				oxy("	if(MinerCount>0){");
+				oxy("	trRemoveUnitsInArea("+i+",\"deMiner\",10);");
+				oxy("	for(i=0; <MinerCount){");
+				oxy("		trUnitCreateFromSource(\"deImperialWagon\", \""+TCUnitId+"\", \""+TCUnitId+"\", "+i+");");
+				oxy("	}}");
+				oxyZ("}/*");
+
 				float XPosOil1 = rmPlayerLocXFraction(i) + xsArrayGetFloat(PlayerSupplyArrayIdX,PlayerLocationId) ;
 				float ZPosOil1 = rmPlayerLocZFraction(i) + xsArrayGetFloat(PlayerSupplyArrayIdZ,PlayerLocationId) ;
 				rmPlaceObjectDefAtLoc(Oil, i, XPosOil1, ZPosOil1);
@@ -616,69 +642,6 @@
 
 				float OffsetX = XPosOil2-XPosOil1;
 				float OffsetZ = ZPosOil2-ZPosOil1;
-				// SPCXPAmmoStorehouse
-
-				rmPlaceObjectDefAtLoc(WagonGetCorner,i,rmPlayerLocXFraction(i),rmPlayerLocZFraction(i));
-				int WagonGetCornerUintId = rmGetUnitPlacedOfPlayer(WagonGetCorner,i);
-				oxy("rule _RenameCorner"+i+" active minInterval 5 runImmediately { ");
-				oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCFortCorner\") == 1){");
-				oxy("	trUnitSelectClear();");
-				oxy("	trUnitSelectByID("+WagonGetCornerUintId+");");
-				oxy("	trUnitChangeName(\"FixToUpdate\");");//更改名字，乱码部分是中文
-				oxy("	trDamageUnit(50);");//扣50血，防止触发自动升级
-				oxy("	if(trUnitPercentDamaged()>0.01){");//如果trigger选择到的物体受伤高于%1
-				oxy("		xsDisableRule(\"_RenameCorner"+i+"\");");//关闭这个触发
-				oxy("		xsEnableRule(\"_DamageWagonGetCorner"+i+"\");");//启用这个名称的触发
-				oxy("	}");
-				oxy("}");
-				oxyZ("}/*");				
-
-				//trTime()-cActivationTime
-				oxy("rule _DamageWagonGetCorner"+i+" minInterval 2 inactive { ");//inactive为默认关闭
-				oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCFortCorner\") == 1){");
-				oxy("	trUnitSelectClear();");
-				oxy("	trUnitSelectByID("+WagonGetCornerUintId+");");
-				// 修好柱子时触发 升级时代
-				oxy("	if( trUnitPercentDamaged() == 0){");
-				oxy("		if(kbGetAgeForPlayer("+i+")==1){");//这个表示当前为时代2
-				oxy("			if(trPlayerResourceCount("+i+",\"Food\")>1200 && trPlayerResourceCount("+i+",\"Gold\")>1000){");
-				oxy("				trPlayerGrantResources("+i+",\"Food\", -1200);");
-				oxy("				trPlayerGrantResources("+i+",\"Gold\", -1000);");
-				oxy("				trPlayerSetAge("+i+", 2, true);}");
-				oxy("		}");
-				oxy("		if(kbGetAgeForPlayer("+i+")==2){");
-				oxy("			if(trPlayerResourceCount("+i+",\"Food\")>2000 && trPlayerResourceCount("+i+",\"Gold\")>1200){");
-				oxy("				trPlayerGrantResources("+i+",\"Food\", -2000);");
-				oxy("				trPlayerGrantResources("+i+",\"Gold\", -1200);");
-				oxy("				trPlayerSetAge("+i+", 3, true);}");
-				oxy("		}");
-				oxy("		if(kbGetAgeForPlayer("+i+")==3){");
-				oxy("			if(trPlayerResourceCount("+i+",\"Food\")>4000 && trPlayerResourceCount("+i+",\"Gold\")>4000){");
-				oxy("				trPlayerGrantResources("+i+",\"Food\", -4000);");
-				oxy("				trPlayerGrantResources("+i+",\"Gold\", -4000);");
-				oxy("				trPlayerSetAge("+i+", 4, true);}");
-				oxy("		}");
-				oxy("		trDamageUnit(100);");
-				oxy("   }");
-				oxy("}");
-				oxyZ("}/*");
-
-				float XPosBaker = rmPlayerLocXFraction(i) + xsArrayGetFloat(BakerArrayIdX,PlayerLocationId) ;
-				float ZPosBaker = rmPlayerLocZFraction(i) + xsArrayGetFloat(BakerArrayIdZ,PlayerLocationId) ;
-				rmPlaceObjectDefAtLoc(WagonBaker,i,XPosBaker,ZPosBaker);
-				int WagonBakerUnitId = rmGetUnitPlacedOfPlayer(WagonBaker,i);
-				oxy("rule _WagonBakerConvert"+i+" minInterval 2 active { ");
-				oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCXPBaker\") == 1){");
-				oxy("	trUnitSelectClear();");
-				oxy("	trUnitSelectByID("+WagonBakerUnitId+");");
-				oxy("	trUnitChangeName(\"GetRandomWagon\");");
-				oxy("	int FoodWagonCount = trCountUnitsInArea(\""+WagonBakerUnitId+"\","+i+",\"SPCXPWagonFood\",10);");
-				oxy("	if(FoodWagonCount>0){");
-				oxy("	trRemoveUnitsInArea("+i+",\"SPCXPWagonFood\",10);");
-				oxy("	for(i=0; <FoodWagonCount){");
-				oxy("		trUnitCreateFromSource(\"deImperialWagon\", \""+WagonBakerUnitId+"\", \""+WagonBakerUnitId+"\", "+i+");");
-				oxy("	}}}");
-				oxyZ("}/*");
 
 				// 仓库触发
 				rmPlaceObjectDefAtLoc(DeDepot,i,XPosOil1+OffsetX/2,ZPosOil1+OffsetZ/2);
@@ -732,61 +695,51 @@
 				//oxy("	xsDisableRule(\"_PlayerDefeated"+i+"\");");
 				oxyZ("}/*");
 
-				// oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCXPBaker\") == 1){");
-				// oxy("}");
-
-
-				// trPlayerKillAllBuildings
-				// trPlayerKillAllUnits
-				// oxy("rule _CaptureOil"+i+" minInterval 2 active { ");
-				// oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCXPBaker\") == 1){");
+				// // 墙柱升时代相关功能
+				// rmPlaceObjectDefAtLoc(WagonGetCorner,i,rmPlayerLocXFraction(i),rmPlayerLocZFraction(i));
+				// int WagonGetCornerUintId = rmGetUnitPlacedOfPlayer(WagonGetCorner,i);
+				// oxy("rule _RenameCorner"+i+" active minInterval 5 runImmediately { ");
+				// oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCFortCorner\") == 1){");
 				// oxy("	trUnitSelectClear();");
-				// oxy("	trUnitSelectByID("+WagonBakerUnitId+");");
-				// // kbUnitGetPlayerID
-				// // oxy("	int FoodWagonCount = trCountUnitsInArea(\""+WagonBakerUnitId+"\","+i+",\"SPCXPWagonFood\",10);");
-				// // oxy("	if(FoodWagonCount>0){");
-				// // oxy("	trRemoveUnitsInArea("+i+",\"SPCXPWagonFood\",10);");
-				// // oxy("	for(i=0; <FoodWagonCount){");
-				// // oxy("		trUnitCreateFromSource(\"deImperialWagon\", \""+WagonBakerUnitId+"\", \""+WagonBakerUnitId+"\", "+i+");");
-				// // oxy("	}}");
-				// // oxy("	int PlayerId = trCurrentPlayer();");
-				// // oxy("	int PlayerLocationArrayId = xsArrayCreateInt(8,0,\"PlayerLocationId\");");
-				// // oxy("	int PlayerId = xsArrayGetInt(PlayerLocationArrayId,"+ArrayIndex+");");
-				// // oxy("	int PlayerId = kbUnitGetPlayerID("+WagonBakerUnitId+");");
-				// oxy("	trChatSend(1, \"BuildingCount is \"+PlayerId+\"\");");
+				// oxy("	trUnitSelectByID("+WagonGetCornerUintId+");");
+				// oxy("	trUnitChangeName(\"FixToUpdate\");");//更改名字
+				// oxy("	trDamageUnit(50);");//扣50血，防止触发自动升级
+				// oxy("	if(trUnitPercentDamaged()>0.01){");//如果trigger选择到的物体受伤高于%1
+				// oxy("		xsDisableRule(\"_RenameCorner"+i+"\");");//关闭这个触发
+				// oxy("		xsEnableRule(\"_DamageWagonGetCorner"+i+"\");");//启用这个名称的触发
+				// oxy("	}");
 				// oxy("}");
-				// oxy("else{");
-				// oxy("	");
+				// oxyZ("}/*");				
+
+				// //trTime()-cActivationTime
+				// oxy("rule _DamageWagonGetCorner"+i+" minInterval 2 inactive { ");//inactive为默认关闭
+				// oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCFortCorner\") == 1){");
+				// oxy("	trUnitSelectClear();");
+				// oxy("	trUnitSelectByID("+WagonGetCornerUintId+");");
+				// // 修好柱子时触发 升级时代
+				// oxy("	if( trUnitPercentDamaged() == 0){");
+				// oxy("		if(kbGetAgeForPlayer("+i+")==1){");//这个表示当前为时代2
+				// oxy("			if(trPlayerResourceCount("+i+",\"Food\")>1200 && trPlayerResourceCount("+i+",\"Gold\")>1000){");
+				// oxy("				trPlayerGrantResources("+i+",\"Food\", -1200);");
+				// oxy("				trPlayerGrantResources("+i+",\"Gold\", -1000);");
+				// oxy("				trPlayerSetAge("+i+", 2, true);}");
+				// oxy("		}");
+				// oxy("		if(kbGetAgeForPlayer("+i+")==2){");
+				// oxy("			if(trPlayerResourceCount("+i+",\"Food\")>2000 && trPlayerResourceCount("+i+",\"Gold\")>1200){");
+				// oxy("				trPlayerGrantResources("+i+",\"Food\", -2000);");
+				// oxy("				trPlayerGrantResources("+i+",\"Gold\", -1200);");
+				// oxy("				trPlayerSetAge("+i+", 3, true);}");
+				// oxy("		}");
+				// oxy("		if(kbGetAgeForPlayer("+i+")==3){");
+				// oxy("			if(trPlayerResourceCount("+i+",\"Food\")>4000 && trPlayerResourceCount("+i+",\"Gold\")>4000){");
+				// oxy("				trPlayerGrantResources("+i+",\"Food\", -4000);");
+				// oxy("				trPlayerGrantResources("+i+",\"Gold\", -4000);");
+				// oxy("				trPlayerSetAge("+i+", 4, true);}");
+				// oxy("		}");
+				// oxy("		trDamageUnit(100);");
+				// oxy("   }");
 				// oxy("}");
 				// oxyZ("}/*");
-
-				// for(int j=1;<=cNumberNonGaiaPlayers)
-				// {
-				// 	string BeginState = "active";
-				// 	if(i==j)
-				// 	{
-				// 		BeginState = "inactive";
-				// 	}
-				// 	// string NameTriggerjCapi = "_CaptureOil"+i+""+j;
-				// 	oxy("rule _CaptureOil"+i+""+j+" minInterval 2 "+BeginState+" { ");
-				// 	oxy("if( trPlayerUnitCountSpecific("+i+",\"SPCXPBaker\") == 1){");
-				// 	oxy("	trUnitSelectClear();");
-				// 	oxy("	trUnitSelectByID("+WagonBakerUnitId+");");
-				// 	oxy("	int SurgeonCount = trCountUnitsInArea(\""+WagonBakerUnitId+"\","+j+",\"Surgeon\",1);");
-				// 	oxy("	if(SurgeonCount>0){");
-				// 	oxy("		trRemoveUnitsInArea("+j+",\"Surgeon\",1.5);");
-				// 	oxy("		trUnitConvert("+j+");");
-				// 	oxy("		for(int p;<=cNumberNonGaiaPlayers){");
-				// 	oxy("			if(p!="+j+"){xsEnableRule(\"_CaptureOil"+i+"+\"p\"+\");}");
-				// 	oxy("		}");
-				// 	oxy("		xsDisableRule(\"_CaptureOil"+i+""+j+"\");");
-				// 	oxy("	}");
-				// 	oxy("}");
-				// 	oxyZ("}/*");
-				// }
-				
-
-
 
 
 				// 放置矿工
@@ -814,6 +767,21 @@
 
 			//ypSPCIndianFortCorner
 		}
+
+		// int ConvertWagonWall = rmCreateObjectDef("ConvertWagonWall");
+		// rmAddObjectDefItem(ConvertWagonWall,"SPCFortWallSmall",1,0);
+		// rmPlaceObjectDefAtLoc(ConvertWagonWall,1,0.92,0.54);
+		// int ConvertWagonWallUintId = rmGetUnitPlacedOfPlayer(ConvertWagonWall,1);
+
+		// // 全图触发单位转换功能
+		// oxy("rule _WagonBakerConvert minInterval 2 active { ");
+		// oxy("	trUnitSelectClear();");
+		// oxy("	trUnitSelectByID("+ConvertWagonWallUintId+");");
+		// oxy("	for(i=1;<="+cNumberNonGaiaPlayers+"){");
+		// oxy("		");
+		// oxy("	}");
+		// oxyZ("}/*");
+
 
 		// 主城访问相关触发
 		// int HCAccessWall = rmCreateObjectDef("HCAccessWall");
